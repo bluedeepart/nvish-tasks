@@ -309,18 +309,29 @@ class Task {
 
 	completedTickets = (option = 0) => {
 		let data = '';
+    let userTickets = '';
+    let otherTickets = '';
+    const USERNAME = this.userName.charAt(0).toUpperCase() + this.userName.slice(1);
+
 		this.parseLSTask.forEach((task) => {
-			const createUrl = task.url + '\n';
-			const createUrl2 =
-				task.url + '\n' + task.title.split('[')[0] + ' ' + this.checkStatus(task) + '\n\n';
+			const createUrl = task.url ? task.url + '\n' : task.title.split('[')[0] + '\n';
+			const taskURL = task.url ? task.url + '\n' : '';
+			const createUrl2 = taskURL + task.title.split('[')[0] + ' ' + this.checkStatus(task) + '\n\n';
 			if (option === '1') {
 				if (task.title.toLowerCase().indexOf(this.userName) > 0) {
-					data += createUrl2;
+					data += createUrl;
 				}
 			} else {
-				data += createUrl2;
+        if (task.title.toLowerCase().indexOf(this.userName) > 0) {
+					userTickets += createUrl2;
+				}else{
+          otherTickets += createUrl2;
+        }
+        data = USERNAME + '\'s Tickets: ' + '\n\n' + userTickets;
+        data += 'Other Tickets: ' + '\n\n' + otherTickets;
 			}
 		});
+
 		const date = new Date().toLocaleDateString().split('/').join('-');
 		const textToBLOB = new Blob([data], { type: 'text/plain' });
 		const sFileName = `${date}.txt`;
