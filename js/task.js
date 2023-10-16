@@ -314,7 +314,7 @@ class Task {
     const USERNAME = this.userName.charAt(0).toUpperCase() + this.userName.slice(1);
 
 		this.parseLSTask.forEach((task) => {
-			const createUrl = task.url ? task.url + '\n' : task.title.split('[')[0] + '\n';
+			const createUrl = task.title.split('[')[0] + ', ';
 			const taskURL = task.url ? task.url + '\n' : '';
 			const createUrl2 = taskURL + task.title.split('[')[0] + ' ' + this.checkStatus(task) + '\n\n';
 			if (option === '1') {
